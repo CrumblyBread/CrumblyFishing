@@ -1,0 +1,287 @@
+[gd_scene load_steps=15 format=3 uid="uid://bdaqbnaj5huih"]
+
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_iqss1"]
+[ext_resource type="Texture2D" uid="uid://djvsox1lm115q" path="res://Textures/Player/OverAlls.png" id="2_a26b3"]
+[ext_resource type="Texture2D" uid="uid://dcchxgp6odls3" path="res://Textures/Player/Head.png" id="3_4jue0"]
+[ext_resource type="ArrayMesh" uid="uid://b3otautsskftv" path="res://Meshes/FishingRodMesh.res" id="4_efbha"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fbr7d"]
+albedo_texture = ExtResource("2_a26b3")
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_i1bke"]
+material = SubResource("StandardMaterial3D_fbr7d")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pcroh"]
+albedo_texture = ExtResource("3_4jue0")
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_wi1g4"]
+material = SubResource("StandardMaterial3D_pcroh")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0xwi8"]
+
+[sub_resource type="Animation" id="Animation_qfl3q"]
+resource_name = "Idle"
+length = 6.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 3.03333),
+"transitions": PackedFloat32Array(-2, -2),
+"update": 0,
+"values": [Vector3(0.477414, -0.294176, -0.349952), Vector3(0.477414, -0.298241, -0.349952)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 3.03333),
+"transitions": PackedFloat32Array(-2, -2),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(-0.0427082, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_vxnbo"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.477414, -0.294176, -0.349952)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("FishingRod:rotation:x")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(-0.866074, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("FishingRod:rotation:y")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(-0.0740746, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/4/type = "bezier"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("FishingRod:rotation:z")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0.0564728, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/5/type = "bezier"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("FishingRod:position:x")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/6/type = "bezier"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("FishingRod:position:y")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/7/type = "bezier"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("FishingRod:position:z")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_7mnln"]
+resource_name = "Move"
+loop_mode = 1
+step = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.52, 0.75),
+"transitions": PackedFloat32Array(0.5, 2, 0.5, 2),
+"update": 0,
+"values": [Vector3(0.477414, -0.294176, -0.349952), Vector3(0.459791, -0.265105, -0.349952), Vector3(0.477414, -0.294176, -0.349952), Vector3(0.504169, -0.272454, -0.349952)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.02, 0.25, 0.52, 0.75),
+"transitions": PackedFloat32Array(0.5, 2, 0.5, 2),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_qichi"]
+resource_name = "Cast"
+length = 2.25
+step = 0.25
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FishingRod:rotation:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(-0.866074, -0.25, 0, 0.25, 0, 0.520398, -0.25, 0, 0.25, 0, -0.866074, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 2, 2.25)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("FishingRod:rotation:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(-0.0740746, -0.25, 0, 0.25, 0, -0.452569, -0.25, 0, 0.25, 0, -0.0740746, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 2, 2.25)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("FishingRod:rotation:z")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(0.0564728, -0.25, 0, 0.25, 0, -0.429543, -0.25, 0, 0.25, 0, 0.0564728, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 2, 2.25)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("FishingRod:position:x")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 2, 2.25)
+}
+tracks/4/type = "bezier"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("FishingRod:position:y")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 2, 2.25)
+}
+tracks/5/type = "bezier"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("FishingRod:position:z")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 2, 2.25)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4q8b5"]
+_data = {
+"Cast": SubResource("Animation_qichi"),
+"Idle": SubResource("Animation_qfl3q"),
+"Move": SubResource("Animation_7mnln"),
+"RESET": SubResource("Animation_vxnbo")
+}
+
+[node name="Player" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+script = ExtResource("1_iqss1")
+
+[node name="Graphics" type="Node3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+
+[node name="Body" type="MeshInstance3D" parent="Graphics"]
+transform = Transform3D(-3.27835e-08, 0, -0.75, 0, 0.75, 0, 0.75, 0, -3.27835e-08, 0, -0.25, 0)
+mesh = SubResource("CapsuleMesh_i1bke")
+skeleton = NodePath("../..")
+
+[node name="Head" type="MeshInstance3D" parent="Graphics"]
+transform = Transform3D(0.4, 0, 0, 0, 0.25, 0, 0, 0, 0.4, 0, 0.699061, 0)
+mesh = SubResource("CapsuleMesh_wi1g4")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_0xwi8")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, -0.000670653, 0.00045998, 0.000671039, 0.999999, -0.000840119, -0.000459417, 0.000840428, 1, 0, 0.682412, 0)
+
+[node name="Hand" type="Node3D" parent="Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.477414, -0.294176, -0.349952)
+
+[node name="FishingRod" type="MeshInstance3D" parent="Camera3D/Hand"]
+transform = Transform3D(0.299655, -4.80563e-08, -0.014383, 0.0109695, 0.194037, 0.228537, 0.00930273, -0.228801, 0.193814, 0, 0, 0)
+mesh = ExtResource("4_efbha")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Camera3D/Hand"]
+libraries = {
+"": SubResource("AnimationLibrary_4q8b5")
+}
+autoplay = "Idle"
+playback_default_blend_time = 0.05
