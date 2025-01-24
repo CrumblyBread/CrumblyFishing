@@ -2,6 +2,8 @@ extends CharacterBody3D
 
 @onready var camera = $Camera3D
 @onready var anim = $Camera3D/Hand/AnimationPlayer
+@onready var label = $CanvasLayer/Label
+
 
 const SPEED = 7.0
 const JUMP_VELOCITY = 4.5
@@ -14,7 +16,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		rotate_y(-event.relative.x * 0.005)
 		camera.rotate_x(-event.relative.y * 0.005)
 		camera.rotation.x = clamp(camera.rotation.x, -PI/2, PI/2)
-		
+		label.text = str(camera.rotation.x).pad_decimals(2)
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.

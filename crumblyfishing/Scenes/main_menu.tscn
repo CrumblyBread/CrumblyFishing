@@ -1,0 +1,299 @@
+[gd_scene load_steps=17 format=3 uid="uid://bccrip2pnyksn"]
+
+[ext_resource type="ArrayMesh" uid="uid://b3otautsskftv" path="res://Meshes/FishingRodMesh.res" id="1_fr8rh"]
+[ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_rl15u"]
+[ext_resource type="Texture2D" uid="uid://dmug7ld236iu0" path="res://Textures/Player/Tracksuit.png" id="2_lrww3"]
+[ext_resource type="Texture2D" uid="uid://dcchxgp6odls3" path="res://Textures/Player/Head.png" id="3_1wi66"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_jfny8"]
+sky_top_color = Color(0.321521, 0.670957, 0.777119, 1)
+sky_horizon_color = Color(0.656785, 0.734058, 0.740859, 1)
+ground_bottom_color = Color(0.305621, 0.265275, 0.186316, 1)
+ground_horizon_color = Color(0.656785, 0.734058, 0.740859, 1)
+
+[sub_resource type="Sky" id="Sky_c0tk1"]
+sky_material = SubResource("ProceduralSkyMaterial_jfny8")
+
+[sub_resource type="Environment" id="Environment_g5aqx"]
+background_mode = 2
+sky = SubResource("Sky_c0tk1")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k0fpn"]
+albedo_color = Color(0.20112, 0.24, 0.1104, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_6rlui"]
+material = SubResource("StandardMaterial3D_k0fpn")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4d0ew"]
+albedo_texture = ExtResource("2_lrww3")
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_ow05p"]
+material = SubResource("StandardMaterial3D_4d0ew")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pcroh"]
+albedo_texture = ExtResource("3_1wi66")
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_wi1g4"]
+material = SubResource("StandardMaterial3D_pcroh")
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_6n7hn"]
+light_mode = 2
+
+[sub_resource type="LabelSettings" id="LabelSettings_31wf4"]
+font_size = 100
+outline_size = 10
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_e4lss"]
+light_mode = 2
+
+[node name="MainMenu" type="Node3D"]
+script = ExtResource("1_rl15u")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_g5aqx")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+light_color = Color(0.977437, 0.914192, 0.797909, 1)
+light_energy = 2.0
+shadow_enabled = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0, 0, 0)
+mesh = SubResource("PlaneMesh_6rlui")
+
+[node name="FishingRod" type="MeshInstance3D" parent="."]
+transform = Transform3D(-0.253245, 0.962027, -0.101838, 0.204817, 0.156202, 0.966256, 0.945472, 0.223841, -0.236597, -1.96197, 2.41811, 0.471796)
+mesh = ExtResource("1_fr8rh")
+skeleton = NodePath("")
+
+[node name="Player" type="CharacterBody3D" parent="."]
+transform = Transform3D(0.85474, 0, -0.519057, 0, 1, 0, 0.519057, 0, 0.85474, -1.11299, 1, 0.141977)
+
+[node name="Graphics" type="Node3D" parent="Player"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+
+[node name="Body" type="MeshInstance3D" parent="Player/Graphics"]
+transform = Transform3D(-3.27835e-08, 0, -0.75, 0, 0.75, 0, 0.75, 0, -3.27835e-08, 0, -0.25, 0)
+visible = false
+mesh = SubResource("CapsuleMesh_ow05p")
+skeleton = NodePath("../..")
+
+[node name="Head" type="MeshInstance3D" parent="Player/Graphics"]
+transform = Transform3D(0.4, 0, 0, 0, 0.25, 0, 0, 0, 0.4, 0, 0.699061, 0)
+visible = false
+mesh = SubResource("CapsuleMesh_wi1g4")
+skeleton = NodePath("../..")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 1.46921, 2, -3)
+current = true
+fov = 90.0
+far = 500.0
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer"]
+material = SubResource("CanvasItemMaterial_6n7hn")
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -334.0
+offset_top = -245.0
+offset_right = 334.0
+offset_bottom = 245.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/PanelContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_31wf4")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+label_settings = SubResource("LabelSettings_31wf4")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.0
+alignment = 1
+
+[node name="JoinMenu" type="VBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="AddressEntry" type="LineEdit" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/JoinMenu"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+placeholder_text = "IP Address"
+alignment = 1
+
+[node name="PortEntry" type="LineEdit" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/JoinMenu"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "5430"
+placeholder_text = "Port"
+alignment = 1
+
+[node name="JoinGameButton" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/JoinMenu"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Host Game"
+
+[node name="BackButton" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/JoinMenu"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Back"
+
+[node name="HostMenu" type="VBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="NumberOfPlayers" type="LineEdit" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/HostMenu"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+placeholder_text = "Number of players"
+
+[node name="HostPort" type="LineEdit" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/HostMenu"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "5430"
+placeholder_text = "Port"
+alignment = 1
+
+[node name="HostGameButton" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/HostMenu"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Host Game"
+
+[node name="BackButton" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/HostMenu"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Back"
+
+[node name="Button" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/HostMenu"]
+layout_mode = 2
+
+[node name="PlayMenu" type="VBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="LineEdit" type="LineEdit" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/PlayMenu"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+placeholder_text = "Username"
+
+[node name="OptionButton" type="OptionButton" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/PlayMenu"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+selected = 0
+item_count = 3
+popup/item_0/text = "Track Suit"
+popup/item_1/text = "Over Alls"
+popup/item_1/id = 1
+popup/item_2/text = "LumberJack"
+popup/item_2/id = 2
+
+[node name="HostButton" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/PlayMenu"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Host Game
+"
+
+[node name="OptionsButton" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/PlayMenu"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Join Game
+"
+
+[node name="BackButton" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/PlayMenu"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Back"
+
+[node name="MainMenu" type="VBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="PlayButton" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/MainMenu"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Play"
+
+[node name="OptionsButton" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/MainMenu"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Options"
+
+[node name="CreditsButton" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/MainMenu"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Credits"
+
+[node name="QuitButton" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/MainMenu"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Quit"
+
+[node name="PanelContainer2" type="PanelContainer" parent="CanvasLayer"]
+material = SubResource("CanvasItemMaterial_e4lss")
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -412.0
+offset_top = -288.0
+offset_right = 412.0
+offset_bottom = -124.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="CanvasLayer/PanelContainer2"]
+visible = false
+layout_mode = 2
+text = "CrumblyFishing"
+label_settings = SubResource("LabelSettings_31wf4")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/JoinMenu/JoinGameButton" to="." method="JoinServerButton"]
+[connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/JoinMenu/BackButton" to="." method="_on_backToPlayMenu" binds= ["./CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/JoinMenu"]]
+[connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/HostMenu/HostGameButton" to="." method="StartServerButton"]
+[connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/HostMenu/BackButton" to="." method="_on_backToPlayMenu" binds= ["./CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/HostMenu"]]
+[connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/HostMenu/Button" to="." method="_on_play_button_pressed"]
+[connection signal="item_selected" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/PlayMenu/OptionButton" to="." method="_on_option_button_item_selected"]
+[connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/PlayMenu/HostButton" to="." method="_on_hostMenu_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/PlayMenu/OptionsButton" to="." method="_on_JoinMenu_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/PlayMenu/BackButton" to="." method="_backToMenuPressed" binds= ["./CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/PlayMenu"]]
+[connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/MainMenu/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/MainMenu/QuitButton" to="." method="_on_quit_button_pressed"]

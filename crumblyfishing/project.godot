@@ -11,9 +11,17 @@ config_version=5
 [application]
 
 config/name="CrumblyFishing"
-run/main_scene="res://Scenes/world.tscn"
+run/main_scene="res://Scenes/global.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+Global="*res://scripts/global.gd"
+
+[editor]
+
+version_control/autoload_on_startup=true
 
 [input]
 
