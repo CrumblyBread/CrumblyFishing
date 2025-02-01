@@ -78,19 +78,16 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 
 
 [node name="Body" type="MeshInstance3D" parent="Player/Graphics"]
 transform = Transform3D(-3.27835e-08, 0, -0.75, 0, 0.75, 0, 0.75, 0, -3.27835e-08, 0, -0.25, 0)
-visible = false
 mesh = SubResource("CapsuleMesh_ow05p")
 skeleton = NodePath("../..")
 
 [node name="Head" type="MeshInstance3D" parent="Player/Graphics"]
 transform = Transform3D(0.4, 0, 0, 0, 0.25, 0, 0, 0, 0.4, 0, 0.699061, 0)
-visible = false
 mesh = SubResource("CapsuleMesh_wi1g4")
 skeleton = NodePath("../..")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 1.46921, 2, -3)
-current = true
 fov = 90.0
 far = 500.0
 
@@ -135,6 +132,27 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 0.0
 alignment = 1
 
+[node name="Credits" type="VBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Label" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Credits"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "This game was made by CrumblyBread
+ under the GNU Public Licence 3.0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BackButton" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Credits"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 30
+text = "Back"
+
 [node name="JoinMenu" type="VBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 visible = false
 custom_minimum_size = Vector2(300, 0)
@@ -158,7 +176,7 @@ alignment = 1
 [node name="JoinGameButton" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/JoinMenu"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
-text = "Host Game"
+text = "Join Game"
 
 [node name="BackButton" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/JoinMenu"]
 layout_mode = 2
@@ -193,9 +211,6 @@ text = "Host Game"
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "Back"
-
-[node name="Button" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/HostMenu"]
-layout_mode = 2
 
 [node name="PlayMenu" type="VBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 visible = false
@@ -246,7 +261,8 @@ alignment = 1
 [node name="PlayButton" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/MainMenu"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
-text = "Play"
+text = "Play
+"
 
 [node name="OptionsButton" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/MainMenu"]
 layout_mode = 2
@@ -279,21 +295,21 @@ grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="Label" type="Label" parent="CanvasLayer/PanelContainer2"]
-visible = false
 layout_mode = 2
 text = "CrumblyFishing"
 label_settings = SubResource("LabelSettings_31wf4")
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Credits/BackButton" to="." method="_backToMenuPressed" binds= ["./CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Credits"]]
 [connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/JoinMenu/JoinGameButton" to="." method="JoinServerButton"]
 [connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/JoinMenu/BackButton" to="." method="_on_backToPlayMenu" binds= ["./CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/JoinMenu"]]
 [connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/HostMenu/HostGameButton" to="." method="StartServerButton"]
 [connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/HostMenu/BackButton" to="." method="_on_backToPlayMenu" binds= ["./CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/HostMenu"]]
-[connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/HostMenu/Button" to="." method="_on_play_button_pressed"]
 [connection signal="item_selected" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/PlayMenu/OptionButton" to="." method="_on_option_button_item_selected"]
 [connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/PlayMenu/HostButton" to="." method="_on_hostMenu_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/PlayMenu/OptionsButton" to="." method="_on_JoinMenu_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/PlayMenu/BackButton" to="." method="_backToMenuPressed" binds= ["./CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/PlayMenu"]]
 [connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/MainMenu/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/MainMenu/CreditsButton" to="." method="_on_credits_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/MainMenu/QuitButton" to="." method="_on_quit_button_pressed"]

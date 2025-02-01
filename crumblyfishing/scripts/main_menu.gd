@@ -5,8 +5,9 @@ const overallsTxt = preload("res://Textures/Player/OverAlls.png")
 const lumberjackTxt = preload("res://Textures/Player/LumberJackOutFit.png")
 const Player = preload("res://Scenes/player.tscn")
 
-@onready var playMenu = $CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/PlayMenu
 @onready var mainMenu = $CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/MainMenu
+@onready var playMenu = $CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/PlayMenu
+@onready var creditsMenu = $CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Credits
 
 @onready var usernameField = $CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/PlayMenu/LineEdit
 @onready var OutfitField = $CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/PlayMenu/OptionButton
@@ -18,6 +19,10 @@ const Player = preload("res://Scenes/player.tscn")
 
 @onready var hostPortField = $CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/HostMenu/HostPort
 @onready var joinPortField = $CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/JoinMenu/PortEntry
+@onready var ipField = $CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/JoinMenu/AddressEntry
+
+@onready var canvasLayer = $CanvasLayer
+@onready var camera = $Camera3D
 
 var port = 5430
 var username
@@ -53,7 +58,6 @@ func _on_hostMenu_button_pressed() -> void:
 	playMenu.hide()
 	hostMenu.show()
 
-
 func _on_option_button_item_selected(index: int) -> void:
 	outfit = index
 	match index:
@@ -66,14 +70,44 @@ func _on_option_button_item_selected(index: int) -> void:
 
 func StartServerButton() -> void:
 	if hostPortField.text != "" or null:
-		port = hostPortField.text
+		port = hostPortField.text.to_int()
+		print(port)
+	
+	hostMenu.hide()
 	
 	enet_peer.create_server(port)
 	multiplayer.multiplayer_peer = enet_peer
+	multiplayer.peer_connected.connect(Global.addPlayer)
+	multiplayer.peer_disconnected.connect(Global.removePlayer)
+	Global.port = port
+	
+	#Global.UpnpSetup()
+	
+	Global.addPlayer(multiplayer.get_unique_id())
+	Global.mainMenu_scene.hide()
+	canvasLayer.hide()
+	camera.current = false
 
 func JoinServerButton() -> void:
-	pass # Replace with function body.
+	var ip = "localhost"
+	if ipField.text != "" or null:
+		port = ipField.text.to_int()
+	if hostPortField.text != "" or null:
+		port = hostPortField.text.to_int()
+	
+	Global.mainMenu_scene.hide()
+	Global.createWorld()
+	canvasLayer.hide()
+	camera.current = false
+	
+	enet_peer.create_client(ip,port)
+	multiplayer.multiplayer_peer = enet_peer
 
 func _unhandled_input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed("interact"):
 		mainMenu.visible = !mainMenu.visible
+
+
+func _on_credits_button_pressed() -> void:
+	mainMenu.hide()
+	creditsMenu.show()

@@ -1,9 +1,10 @@
-[gd_scene load_steps=15 format=3 uid="uid://bdaqbnaj5huih"]
+[gd_scene load_steps=18 format=3 uid="uid://bdaqbnaj5huih"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_iqss1"]
 [ext_resource type="Texture2D" uid="uid://dmug7ld236iu0" path="res://Textures/Player/Tracksuit.png" id="2_0ecj4"]
 [ext_resource type="Texture2D" uid="uid://dcchxgp6odls3" path="res://Textures/Player/Head.png" id="3_4jue0"]
 [ext_resource type="ArrayMesh" uid="uid://b3otautsskftv" path="res://Meshes/FishingRodMesh.res" id="4_efbha"]
+[ext_resource type="Script" path="res://scripts/input_synchronizer.gd" id="5_tg2nt"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t8suh"]
 albedo_texture = ExtResource("2_0ecj4")
@@ -249,8 +250,31 @@ _data = {
 "RESET": SubResource("Animation_vxnbo")
 }
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_7dq7r"]
+properties/0/path = NodePath("inputSynchronizer:inputDirection")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("inputSynchronizer:jump")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("inputSynchronizer:use")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath("inputSynchronizer:interact")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_nku6m"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
 [node name="Player" type="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+collision_layer = 2
 script = ExtResource("1_iqss1")
 
 [node name="Graphics" type="Node3D" parent="."]
@@ -286,8 +310,9 @@ libraries = {
 autoplay = "Idle"
 playback_default_blend_time = 0.05
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="inputSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_7dq7r")
+script = ExtResource("5_tg2nt")
 
-[node name="Label" type="Label" parent="CanvasLayer"]
-offset_right = 40.0
-offset_bottom = 23.0
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_nku6m")
