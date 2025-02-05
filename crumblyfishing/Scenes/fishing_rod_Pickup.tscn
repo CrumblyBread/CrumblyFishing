@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://bhn265s4oo2kv"]
+
+[ext_resource type="ArrayMesh" uid="uid://b3otautsskftv" path="res://Meshes/FishingRodMesh.res" id="2_c5vcr"]
+[ext_resource type="Script" path="res://scripts/Items/fishing_rod.gd" id="3_8unct"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_n5sch"]
+size = Vector3(0.10401, 9.41964, 0.120762)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_yldn4"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
+[node name="FishingRodPickUp" type="RigidBody3D"]
+mass = 2.0
+script = ExtResource("3_8unct")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.3, 1.78814e-08, 1.67632e-09, -1.78814e-08, 0.3, -1.09076e-06, -1.67638e-09, 1.09076e-06, 0.3, -0.002, 1.38005, -0.001)
+shape = SubResource("BoxShape3D_n5sch")
+
+[node name="FishingRod" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.3, 4.6566e-10, -9.31323e-10, -4.6566e-10, 0.3, -1.49012e-08, 9.31323e-10, 1.49012e-08, 0.3, 0, 0, 0)
+mesh = ExtResource("2_c5vcr")
+skeleton = NodePath("../..")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_yldn4")

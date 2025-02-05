@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://c7bws67xv4pbs"]
+[gd_scene load_steps=20 format=3 uid="uid://c7bws67xv4pbs"]
 
 [ext_resource type="Script" path="res://addons/zylann.hterrain/hterrain.gd" id="2_uclxy"]
 [ext_resource type="Resource" path="res://Terrain/data.hterrain" id="3_l03a2"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://c6e06v8132eb" path="res://Terrain/Textures/grass_albedo_height.png" id="5_a5din"]
 [ext_resource type="Texture2D" uid="uid://dyd6tim26hrqd" path="res://Terrain/Textures/gravel_albedo_height.png" id="6_aqfvu"]
 [ext_resource type="Texture2D" uid="uid://b7yim6mre0t5x" path="res://Terrain/Textures/rock_albedo_height.png" id="7_lcixq"]
+[ext_resource type="PackedScene" uid="uid://bhn265s4oo2kv" path="res://Scenes/fishing_rod_Pickup.tscn" id="7_oj50y"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ppvtm"]
 sky_top_color = Color(0.321521, 0.670957, 0.777119, 1)
@@ -139,7 +140,7 @@ noise = SubResource("FastNoiseLite_5qaxh")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_43atr"]
 render_priority = 0
 shader = SubResource("Shader_eiiwu")
-shader_parameter/albedo = Color(0.431373, 0.45098, 0.356863, 1)
+shader_parameter/albedo = Color(0.431373, 0.45098, 0.356863, 0.784314)
 shader_parameter/point_size = 1.0
 shader_parameter/roughness = 0.0
 shader_parameter/metallic_texture_channel = null
@@ -161,6 +162,7 @@ material = SubResource("ShaderMaterial_43atr")
 size = Vector3(256, 1, 256)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_46wlp"]
+size = Vector3(1, 0.498535, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_bwsya"]
 
@@ -195,14 +197,14 @@ shader_params/u_triplanar = null
 shader_params/u_tile_reduction = null
 
 [node name="Water" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.779452, 0)
+transform = Transform3D(1, 0, 0, 0, 20, 0, 0, 0, 1, 0, -10.279, 0)
 mesh = SubResource("BoxMesh_m6orx")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.639634, 8.53205)
+transform = Transform3D(2.05781, 0, 0, 0, 1, 0, 0, 0, 1, -5.00033, 0.301344, -6.76086)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.499891, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.249159, 0)
 shape = SubResource("BoxShape3D_46wlp")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
@@ -216,3 +218,6 @@ spawn_limit = 10
 [node name="Players" type="Node3D" parent="."]
 
 [node name="Objects" type="Node3D" parent="."]
+
+[node name="FishingRodPickUp" parent="Objects" instance=ExtResource("7_oj50y")]
+transform = Transform3D(-3.01487e-08, -0.724076, 0.689721, -3.16504e-08, 0.689721, 0.724076, -1, 0, -4.37114e-08, -4.35253, 1.35805, -6.64091)

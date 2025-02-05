@@ -11,11 +11,14 @@ var global_scene
 var mainMenu_scene
 var world_scene
 
+var localPlayerId
+
 var ip
 var port
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	
 	if Global.global_scene == null:
 		Global.global_scene = self
 	else:
@@ -31,16 +34,17 @@ func createWorld():
 		var instance = world.instantiate()
 		Global.world_scene = instance
 		Global.add_child(instance)
+		Global.playerHolder = Global.world_scene.get_node("Players")
 
 func addPlayer(peer_id):
 	var p = player.instantiate()
 	p.name = str(peer_id)
 	createWorld()
-	Global.world_scene.get_node("Players").add_child(p)
+	Global.playerHolder.add_child(p)
 	p.get_child(2).set_multiplayer_authority(peer_id)
 	
 func removePlayer(peer_id):
-	var p = Global.world_scene.get_node("Players").get_node_or_null(str(peer_id))
+	var p = Global.playerHolder.get_node_or_null(str(peer_id))
 	if p:
 		p.queue_free()
 

@@ -25,8 +25,8 @@ const Player = preload("res://Scenes/player.tscn")
 @onready var camera = $Camera3D
 
 var port = 5430
-var username
-var outfit
+var username = "Guest"
+var outfit = 0
 
 var enet_peer = ENetMultiplayerPeer.new()
 
@@ -71,12 +71,17 @@ func _on_option_button_item_selected(index: int) -> void:
 func StartServerButton() -> void:
 	if hostPortField.text != "" or null:
 		port = hostPortField.text.to_int()
-		print(port)
-	
+	if usernameField.text != "" or null:
+		username = usernameField.text
+		
 	hostMenu.hide()
+	
+	multiplayer.connect("connection_failed", _connection_failed)
+	multiplayer.connect("server_disconnected", _connection_failed)
 	
 	enet_peer.create_server(port)
 	multiplayer.multiplayer_peer = enet_peer
+
 	multiplayer.peer_connected.connect(Global.addPlayer)
 	multiplayer.peer_disconnected.connect(Global.removePlayer)
 	Global.port = port
@@ -87,6 +92,17 @@ func StartServerButton() -> void:
 	Global.mainMenu_scene.hide()
 	canvasLayer.hide()
 	camera.current = false
+	Global.playerHolder.get_node(str(multiplayer.get_unique_id())).setPlayerName(username)
+	Global.playerHolder.get_node(str(multiplayer.get_unique_id())).setPlayerOutfit(outfit)
+
+func _connection_failed():
+	print("HERE")
+	Global.mainMenu_scene.show()
+	canvasLayer.show()
+	mainMenu.show()
+	if Global.world_scene:
+		Global.world_scene.queue_free()
+	camera.current = true
 
 func JoinServerButton() -> void:
 	var ip = "localhost"
@@ -94,14 +110,27 @@ func JoinServerButton() -> void:
 		port = ipField.text.to_int()
 	if hostPortField.text != "" or null:
 		port = hostPortField.text.to_int()
+	if usernameField.text != "" or null:
+		username = usernameField.text
 	
-	Global.mainMenu_scene.hide()
-	Global.createWorld()
-	canvasLayer.hide()
-	camera.current = false
+	joinMenu.hide()
+		
+	multiplayer.connect("connection_failed", _connection_failed)
+	multiplayer.connect("connected_to_server", joined_server)
+	multiplayer.connect("server_disconnected", _connection_failed)
 	
 	enet_peer.create_client(ip,port)
 	multiplayer.multiplayer_peer = enet_peer
+
+func joined_server():
+	Global.createWorld() 
+	Global.mainMenu_scene.hide()
+	canvasLayer.hide()
+	camera.current = false
+	
+	await get_tree().create_timer(.2).timeout
+	Global.playerHolder.get_node(str(multiplayer.get_unique_id())).setPlayerName(username)
+	Global.playerHolder.get_node(str(multiplayer.get_unique_id())).setPlayerOutfit(outfit)
 
 func _unhandled_input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed("interact"):
