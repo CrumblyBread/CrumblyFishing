@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://c7bws67xv4pbs"]
+[gd_scene load_steps=23 format=3 uid="uid://c7bws67xv4pbs"]
 
 [ext_resource type="Script" path="res://addons/zylann.hterrain/hterrain.gd" id="2_uclxy"]
 [ext_resource type="Resource" path="res://Terrain/data.hterrain" id="3_l03a2"]
@@ -7,6 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://dyd6tim26hrqd" path="res://Terrain/Textures/gravel_albedo_height.png" id="6_aqfvu"]
 [ext_resource type="Texture2D" uid="uid://b7yim6mre0t5x" path="res://Terrain/Textures/rock_albedo_height.png" id="7_lcixq"]
 [ext_resource type="PackedScene" uid="uid://bhn265s4oo2kv" path="res://Scenes/fishing_rod_Pickup.tscn" id="7_oj50y"]
+[ext_resource type="PackedScene" uid="uid://duci7opn6rjmu" path="res://Scenes/beer_bottle_pick_up.tscn" id="8_nffy3"]
+[ext_resource type="Script" path="res://Scenes/teleporter.gd" id="9_kvxsa"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ppvtm"]
 sky_top_color = Color(0.321521, 0.670957, 0.777119, 1)
@@ -161,8 +163,11 @@ shader_parameter/texture_normal = SubResource("NoiseTexture2D_lno1k")
 material = SubResource("ShaderMaterial_43atr")
 size = Vector3(256, 1, 256)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_vx7uo"]
+size = Vector3(256, 5, 256)
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_46wlp"]
-size = Vector3(1, 0.498535, 1)
+size = Vector3(1, 1.1477, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_bwsya"]
 
@@ -200,6 +205,14 @@ shader_params/u_tile_reduction = null
 transform = Transform3D(1, 0, 0, 0, 20, 0, 0, 0, 1, 0, -10.279, 0)
 mesh = SubResource("BoxMesh_m6orx")
 
+[node name="Teleporter" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75449, 0)
+script = ExtResource("9_kvxsa")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Teleporter"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -9.77851, 0)
+shape = SubResource("BoxShape3D_vx7uo")
+
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 transform = Transform3D(2.05781, 0, 0, 0, 1, 0, 0, 0, 1, -5.00033, 0.301344, -6.76086)
 
@@ -220,4 +233,20 @@ spawn_limit = 10
 [node name="Objects" type="Node3D" parent="."]
 
 [node name="FishingRodPickUp" parent="Objects" instance=ExtResource("7_oj50y")]
-transform = Transform3D(-3.01487e-08, -0.724076, 0.689721, -3.16504e-08, 0.689721, 0.724076, -1, 0, -4.37114e-08, -4.35253, 1.35805, -6.64091)
+transform = Transform3D(-1.10915e-09, -0.999679, 0.0253743, -4.36974e-08, 0.0253743, 0.999679, -1, -2.45038e-15, -4.37114e-08, -3.66227, 0.984697, -6.64091)
+durability = 25
+
+[node name="FishingRodStand" type="StaticBody3D" parent="Objects"]
+transform = Transform3D(0.768804, 0, 0.927589, 0, 2.24363, 0, -1.9088, 0, 0.373603, -20.2034, 2.14214, -1.34213)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Objects/FishingRodStand"]
+transform = Transform3D(1, 0, 1.63913e-07, 0, 1, 0, 0, 0, 1, 0, -0.0754259, 0)
+shape = SubResource("BoxShape3D_46wlp")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Objects/FishingRodStand"]
+mesh = SubResource("BoxMesh_bwsya")
+
+[node name="BeerBottlePickUp" parent="Objects" instance=ExtResource("8_nffy3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.32827, 1.13886, -7.12792)
+
+[connection signal="body_entered" from="Teleporter" to="Teleporter" method="_on_body_entered"]

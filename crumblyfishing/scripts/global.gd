@@ -35,6 +35,7 @@ func createWorld():
 		Global.world_scene = instance
 		Global.add_child(instance)
 		Global.playerHolder = Global.world_scene.get_node("Players")
+		Global.objectsHolder = Global.world_scene.get_node("Objects")
 
 func addPlayer(peer_id):
 	var p = player.instantiate()
@@ -62,9 +63,17 @@ func UpnpSetup():
 func _unhandled_input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed("quit"):
 		get_tree().quit()
+
+@rpc("any_peer", "reliable", "call_local")
+func removeObject(node_path):
+	var object = get_node(node_path)
+	object.queue_free()
 	
-	if Input.is_action_just_pressed("quit"):
-		get_tree().quit()
-		
-	if Input.is_action_just_pressed("quit"):
-		get_tree().quit()
+@rpc("any_peer", "reliable", "call_local")
+func createObject(load_path,hand,drop):
+	var spawnItem = load(load_path).instantiate() as Node3D
+	Global.objectsHolder.add_child(spawnItem)
+	spawnItem.position = hand.origin
+	spawnItem.rotation = Vector3(hand.basis.get_euler().x,hand.basis.get_euler().y+90,hand.basis.get_euler().z)
+	if drop:
+		spawnItem.apply_impulse(spawnItem.basis.x,-spawnItem.basis.x * 500)

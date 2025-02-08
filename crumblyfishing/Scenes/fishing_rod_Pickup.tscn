@@ -13,17 +13,24 @@ properties/0/replication_mode = 1
 properties/1/path = NodePath(".:rotation")
 properties/1/spawn = true
 properties/1/replication_mode = 1
+properties/2/path = NodePath(".:visible")
+properties/2/spawn = true
+properties/2/replication_mode = 1
 
 [node name="FishingRodPickUp" type="RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00238228, 4.76837e-07, -0.0103168)
+collision_layer = 4
+collision_mask = 5
 mass = 2.0
 script = ExtResource("3_8unct")
+durability = 50
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(0.3, 1.78814e-08, 1.67632e-09, -1.78814e-08, 0.3, -1.09076e-06, -1.67638e-09, 1.09076e-06, 0.3, -0.002, 1.38005, -0.001)
+transform = Transform3D(-0.3, -1.78813e-08, 2.45505e-08, 2.45505e-08, 1.10387e-06, 0.3, -1.78814e-08, 0.3, -1.10387e-06, 0, 0.024607, 0.689525)
 shape = SubResource("BoxShape3D_n5sch")
 
 [node name="FishingRod" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.3, 4.6566e-10, -9.31323e-10, -4.6566e-10, 0.3, -1.49012e-08, 9.31323e-10, 1.49012e-08, 0.3, 0, 0, 0)
+transform = Transform3D(-0.3, -4.65658e-10, 2.71582e-08, 2.71582e-08, 2.80146e-08, 0.3, -4.6566e-10, 0.3, -2.80146e-08, -0.002, 0.025607, -0.690525)
 mesh = ExtResource("2_c5vcr")
 skeleton = NodePath("../..")
 

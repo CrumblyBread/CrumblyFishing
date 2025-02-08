@@ -1,12 +1,10 @@
 extends Item
 
-var durability = 50
+@export var durability : int
 
-const dropItem = preload("res://Scenes/fishing_rod_Pickup.tscn")
-
-func _ready() -> void:
-	pass
-
+func _ready() -> void: 
+	id = 1
+	
 func _process(_delta: float) -> void:
 	pass
 
@@ -17,4 +15,3 @@ func use():
 func repair():
 	durability = 50
 	print("Durability restored to %d", durability)
-	

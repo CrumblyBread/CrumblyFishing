@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://bdaqbnaj5huih"]
+[gd_scene load_steps=28 format=3 uid="uid://bdaqbnaj5huih"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_iqss1"]
 [ext_resource type="Texture2D" uid="uid://dmug7ld236iu0" path="res://Textures/Player/Tracksuit.png" id="2_0ecj4"]
@@ -8,6 +8,9 @@
 [ext_resource type="Texture2D" uid="uid://cuiw7juqutftn" path="res://Textures/Player/LumberJackOutFit.png" id="4_f3k6p"]
 [ext_resource type="Script" path="res://scripts/input_synchronizer.gd" id="5_tg2nt"]
 [ext_resource type="Script" path="res://scripts/Items/fishing_rod.gd" id="7_twamc"]
+[ext_resource type="Script" path="res://scripts/Items/beer_bottle.gd" id="8_fp3pb"]
+[ext_resource type="ArrayMesh" uid="uid://e23i5h1h56ji" path="res://Meshes/BeerBottleMesh.res" id="8_xot23"]
+[ext_resource type="ArrayMesh" uid="uid://bstq5nv7c3m5j" path="res://Meshes/BeerMesh.res" id="9_bsfwf"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5486n"]
 albedo_texture = ExtResource("2_0ecj4")
@@ -304,6 +307,12 @@ properties/1/replication_mode = 1
 properties/2/path = NodePath("Label3D:text")
 properties/2/spawn = true
 properties/2/replication_mode = 2
+properties/3/path = NodePath("Camera3D/Hand/FishingRod:visible")
+properties/3/spawn = true
+properties/3/replication_mode = 2
+properties/4/path = NodePath("Camera3D/Hand/BeerBottle:visible")
+properties/4/spawn = true
+properties/4/replication_mode = 1
 
 [node name="Player" type="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -346,7 +355,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.682412, 0)
 
 [node name="Reach" type="RayCast3D" parent="Camera3D"]
 target_position = Vector3(0, 0, -2.5)
-collision_mask = 3
+collision_mask = 7
 
 [node name="Hand" type="Node3D" parent="Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.477414, -0.294176, -0.349952)
@@ -363,6 +372,23 @@ transform = Transform3D(0.299655, -2.23518e-08, -0.014383, 0.0109695, 0.194037, 
 visible = false
 mesh = ExtResource("4_efbha")
 script = ExtResource("7_twamc")
+durability = 49
+
+[node name="BeerBottle" type="Node3D" parent="Camera3D/Hand"]
+transform = Transform3D(5, 0, 0, 0, -2.18557e-07, 5, 0, -5, -2.18557e-07, -0.155053, -0.0166222, 0.00356129)
+visible = false
+script = ExtResource("8_fp3pb")
+
+[node name="BeerBottle" type="MeshInstance3D" parent="Camera3D/Hand/BeerBottle"]
+mesh = ExtResource("8_xot23")
+skeleton = NodePath("")
+
+[node name="Node3D" type="Node3D" parent="Camera3D/Hand/BeerBottle"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.00730346)
+
+[node name="Beer" type="MeshInstance3D" parent="Camera3D/Hand/BeerBottle/Node3D"]
+mesh = ExtResource("9_bsfwf")
+skeleton = NodePath("../../BeerBottle")
 
 [node name="inputSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_7dq7r")

@@ -8,14 +8,15 @@ const lumberjackTxt = preload("res://Textures/Player/LumberJackOutFit.png")
 @onready var anim = $Camera3D/Hand/AnimationPlayer
 @onready var bodyHolder = $Graphics/BodyHolder
 @onready var inputSynch = $inputSynchronizer
-@onready var reach = $Camera3D/Reach
-@onready var hand = $Graphics/Head
-
+@onready var reach = $Camera3D/Reach as RayCast3D
+@onready var hand = $Camera3D/Hand
 var activeItem
 
 @onready var fishingRodItem = $Camera3D/Hand/FishingRod
+@onready var beerBottleItem = $Camera3D/Hand/BeerBottle
 
-const fishingRodPickup = preload("res://Scenes/fishing_rod_Pickup.tscn")
+const fishingRodPickup = "res://Scenes/fishing_rod_Pickup.tscn"
+const beerBottlePickup = "res://Scenes/beer_bottle_pick_up.tscn"
 
 var username = "Guest"
 var outfit = 0
@@ -43,17 +44,51 @@ func _unhandled_input(event: InputEvent) -> void:
 		camera.rotation.x = clamp(camera.rotation.x, -PI/2, PI/2)
 
 func _process(_delta: float) -> void:
-	if inputSynch.interact and reach.is_colliding():
-		_interact()
-		
+	if inputSynch.interact and reach.is_colliding() and not activeItem:
+			_interact()
+	if inputSynch.drop and activeItem:
+		dropHand()
+	
 func _interact():
-	if reach.get_collider().get_name() == "FishingRodPickUp":
+	if reach.get_collider().get_name() == "FishingRodStand":
 		resetHand()
 		fishingRodItem.show()
-		fishingRodItem.durability = reach.get_collider().durability
-		reach.get_collider().queue_free()
+		fishingRodItem.durability = 50
 		activeItem = fishingRodItem
-		return
+		return 
+	
+	var item = reach.get_collider() as Item
+	if not item:return
+	match item.id:
+		1:
+			resetHand()
+			fishingRodItem.show()
+			fishingRodItem.durability = reach.get_collider().durability
+			Global.removeObject.rpc(reach.get_collider().get_path())
+			activeItem = fishingRodItem
+			return 
+
+		2:
+			resetHand()
+			beerBottleItem.show()
+			beerBottleItem.fillLevel = reach.get_collider().fillLevel
+			Global.removeObject.rpc(reach.get_collider().get_path())
+			activeItem = beerBottleItem
+			return
+		
+func dropHand():
+	
+	var dropItem = null
+	match activeItem:
+		fishingRodItem:
+			dropItem = fishingRodPickup
+		beerBottleItem:
+			dropItem = beerBottlePickup
+	
+	Global.createObject.rpc(dropItem,hand.global_transform,true)
+	
+	resetHand()
+	activeItem = null
 
 func resetHand():
 	for n in range(1,hand.get_child_count()):

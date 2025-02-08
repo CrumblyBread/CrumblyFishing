@@ -96,7 +96,9 @@ func StartServerButton() -> void:
 	Global.playerHolder.get_node(str(multiplayer.get_unique_id())).setPlayerOutfit(outfit)
 
 func _connection_failed():
-	print("HERE")
+	multiplayer.disconnect("connection_failed", _connection_failed)
+	multiplayer.disconnect("server_disconnected", _connection_failed)
+	
 	Global.mainMenu_scene.show()
 	canvasLayer.show()
 	mainMenu.show()

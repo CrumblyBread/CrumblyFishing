@@ -1,0 +1,43 @@
+[gd_scene load_steps=6 format=3 uid="uid://duci7opn6rjmu"]
+
+[ext_resource type="Script" path="res://scripts/Items/beer_bottle.gd" id="1_nie01"]
+[ext_resource type="ArrayMesh" uid="uid://e23i5h1h56ji" path="res://Meshes/BeerBottleMesh.res" id="1_s1an1"]
+[ext_resource type="ArrayMesh" uid="uid://bstq5nv7c3m5j" path="res://Meshes/BeerMesh.res" id="2_adg6o"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_bwb4d"]
+height = 0.372494
+radius = 0.0514877
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_to4wx"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
+[node name="BeerBottlePickUp" type="RigidBody3D"]
+collision_layer = 4
+collision_mask = 5
+script = ExtResource("1_nie01")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.185147, 0)
+shape = SubResource("CylinderShape3D_bwb4d")
+
+[node name="Graphics" type="Node3D" parent="."]
+transform = Transform3D(5, 0, 0, 0, -2.18557e-07, 5, 0, -5, -2.18557e-07, 0, 0, 0)
+
+[node name="BeerBottle" type="MeshInstance3D" parent="Graphics"]
+mesh = ExtResource("1_s1an1")
+skeleton = NodePath("../..")
+
+[node name="Node3D" type="Node3D" parent="Graphics"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.00730346)
+
+[node name="Beer" type="MeshInstance3D" parent="Graphics/Node3D"]
+mesh = ExtResource("2_adg6o")
+skeleton = NodePath("../../BeerBottle")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_to4wx")
