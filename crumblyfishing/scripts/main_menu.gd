@@ -129,6 +129,7 @@ func joined_server():
 	Global.mainMenu_scene.hide()
 	canvasLayer.hide()
 	camera.current = false
+	Global.objectSynch()
 	
 	await get_tree().create_timer(.2).timeout
 	Global.playerHolder.get_node(str(multiplayer.get_unique_id())).setPlayerName(username)

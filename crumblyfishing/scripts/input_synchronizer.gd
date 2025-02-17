@@ -15,7 +15,7 @@ func _ready() -> void:
 	
 	inputDirection = Input.get_vector("left", "right", "up", "down")
 	jump = Input.is_action_just_pressed("ui_accept")
-	use = Input.is_action_just_pressed("use")
+	use = Input.is_action_pressed("use")
 	interact = Input.is_action_just_pressed("interact")
 	sprint = Input.is_action_pressed("sprint")
 	drop = Input.is_action_just_pressed("drop")
@@ -24,7 +24,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	inputDirection = Input.get_vector("left", "right", "up", "down")
 	jump = Input.is_action_just_pressed("ui_accept")
-	use = Input.is_action_just_pressed("use")
+	use = Input.is_action_pressed("use")
 	interact = Input.is_action_just_pressed("interact")
 	sprint = Input.is_action_pressed("sprint")
 	drop = Input.is_action_just_pressed("drop")

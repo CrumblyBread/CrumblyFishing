@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://bdaqbnaj5huih"]
+[gd_scene load_steps=29 format=3 uid="uid://bdaqbnaj5huih"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_iqss1"]
 [ext_resource type="Texture2D" uid="uid://dmug7ld236iu0" path="res://Textures/Player/Tracksuit.png" id="2_0ecj4"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" path="res://scripts/Items/beer_bottle.gd" id="8_fp3pb"]
 [ext_resource type="ArrayMesh" uid="uid://e23i5h1h56ji" path="res://Meshes/BeerBottleMesh.res" id="8_xot23"]
 [ext_resource type="ArrayMesh" uid="uid://bstq5nv7c3m5j" path="res://Meshes/BeerMesh.res" id="9_bsfwf"]
+[ext_resource type="Texture2D" uid="uid://g2h6nmk582bk" path="res://Textures/CrossHair/dot_normal.png" id="11_dy6x7"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5486n"]
 albedo_texture = ExtResource("2_0ecj4")
@@ -389,6 +390,48 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.00730346)
 [node name="Beer" type="MeshInstance3D" parent="Camera3D/Hand/BeerBottle/Node3D"]
 mesh = ExtResource("9_bsfwf")
 skeleton = NodePath("../../BeerBottle")
+
+[node name="Control" type="Control" parent="Camera3D"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TextureRect" type="TextureRect" parent="Camera3D/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("11_dy6x7")
+metadata/_edit_use_anchors_ = true
+
+[node name="ProgressBar" type="ProgressBar" parent="Camera3D/Control"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.64892
+anchor_right = 0.5
+anchor_bottom = 0.64892
+offset_left = -108.5
+offset_top = -13.5
+offset_right = 108.5
+offset_bottom = 13.5
+grow_horizontal = 2
+grow_vertical = 2
+show_percentage = false
+metadata/_edit_use_anchors_ = true
 
 [node name="inputSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_7dq7r")

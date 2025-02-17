@@ -10,13 +10,15 @@ const lumberjackTxt = preload("res://Textures/Player/LumberJackOutFit.png")
 @onready var inputSynch = $inputSynchronizer
 @onready var reach = $Camera3D/Reach as RayCast3D
 @onready var hand = $Camera3D/Hand
+@onready var progressBar = $Camera3D/Control/ProgressBar
 var activeItem
 
 @onready var fishingRodItem = $Camera3D/Hand/FishingRod
 @onready var beerBottleItem = $Camera3D/Hand/BeerBottle
 
-const fishingRodPickup = "res://Scenes/fishing_rod_Pickup.tscn"
-const beerBottlePickup = "res://Scenes/beer_bottle_pick_up.tscn"
+var lastUse = false
+var useTimer = 0.0
+var bufferJump = false
 
 var username = "Guest"
 var outfit = 0
@@ -44,36 +46,62 @@ func _unhandled_input(event: InputEvent) -> void:
 		camera.rotation.x = clamp(camera.rotation.x, -PI/2, PI/2)
 
 func _process(_delta: float) -> void:
+	if not inputSynch.jump:
+		bufferJump = false
+	elif bufferJump == false:
+		bufferJump = true
+	
+	if not inputSynch.use:
+		if useTimer != 0.0 and activeItem:
+			activeItem.stopUse()
+		useTimer = 0.0
+	else:
+		useTimer += _delta
+	
+	if inputSynch.use and activeItem:
+		activeItem.use(useTimer)
 	if inputSynch.interact and reach.is_colliding() and not activeItem:
 			_interact()
 	if inputSynch.drop and activeItem:
 		dropHand()
 	
+	lastUse = inputSynch.use	
+
 func _interact():
 	if reach.get_collider().get_name() == "FishingRodStand":
 		resetHand()
 		fishingRodItem.show()
 		fishingRodItem.durability = 50
 		activeItem = fishingRodItem
+		activeItem.itemSetup("default")
+		return 
+	if reach.get_collider().get_name() == "BeerBottleStand":
+		resetHand()
+		beerBottleItem.show()
+		beerBottleItem.fillLevel = 1
+		activeItem = beerBottleItem
+		activeItem.itemSetup("default")
 		return 
 	
 	var item = reach.get_collider() as Item
 	if not item:return
-	match item.id:
+	match item.type:
 		1:
 			resetHand()
 			fishingRodItem.show()
-			fishingRodItem.durability = reach.get_collider().durability
 			Global.removeObject.rpc(reach.get_collider().get_path())
 			activeItem = fishingRodItem
+			print(reach.get_collider().getVars())
+			activeItem.itemSetup(reach.get_collider().getVars())
 			return 
 
 		2:
 			resetHand()
 			beerBottleItem.show()
-			beerBottleItem.fillLevel = reach.get_collider().fillLevel
 			Global.removeObject.rpc(reach.get_collider().get_path())
 			activeItem = beerBottleItem
+			activeItem.itemSetup(reach.get_collider().getVars())
+			print("id is ",activeItem.id)
 			return
 		
 func dropHand():
@@ -81,11 +109,12 @@ func dropHand():
 	var dropItem = null
 	match activeItem:
 		fishingRodItem:
-			dropItem = fishingRodPickup
+			dropItem =Global.fishingRodPickup
 		beerBottleItem:
-			dropItem = beerBottlePickup
+			dropItem = Global.beerBottlePickup
 	
-	Global.createObject.rpc(dropItem,hand.global_transform,true)
+	print(activeItem.getVars())
+	Global.createObject.rpc(dropItem,hand.global_transform,true,activeItem.id)
 	
 	resetHand()
 	activeItem = null
@@ -107,7 +136,8 @@ func _physics_process(delta: float) -> void:
 			SPEED = 5.0;
 	
 	# Handle jump.
-	if inputSynch.jump and is_on_floor():
+	if (inputSynch.jump or bufferJump) and is_on_floor():
+		bufferJump = false
 		velocity.y = JUMP_VELOCITY
 
 	# Get the input direction and handle the movement/deceleration.

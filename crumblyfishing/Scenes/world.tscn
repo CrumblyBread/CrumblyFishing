@@ -164,7 +164,7 @@ material = SubResource("ShaderMaterial_43atr")
 size = Vector3(256, 1, 256)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_vx7uo"]
-size = Vector3(256, 5, 256)
+size = Vector3(256, 9.3418, 256)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_46wlp"]
 size = Vector3(1, 1.1477, 1)
@@ -210,7 +210,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75449, 0)
 script = ExtResource("9_kvxsa")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Teleporter"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -9.77851, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -11.9494, 0)
 shape = SubResource("BoxShape3D_vx7uo")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
@@ -228,6 +228,28 @@ _spawnable_scenes = PackedStringArray("res://Scenes/player.tscn")
 spawn_path = NodePath("../Players")
 spawn_limit = 10
 
+[node name="Structures" type="Node3D" parent="."]
+
+[node name="BeerBottleStand" type="StaticBody3D" parent="Structures"]
+transform = Transform3D(-1.08375, 0.000579263, 0.850081, 9.96233e-05, 2.24363, -0.000273719, -1.74931, -0.000231085, -0.526652, -17.5702, 2.14214, 8.11943)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Structures/BeerBottleStand"]
+transform = Transform3D(1, 0, 1.63913e-07, 0, 1, 0, 0, 0, 1, 0, -0.0754259, 0)
+shape = SubResource("BoxShape3D_46wlp")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Structures/BeerBottleStand"]
+mesh = SubResource("BoxMesh_bwsya")
+
+[node name="FishingRodStand" type="StaticBody3D" parent="Structures"]
+transform = Transform3D(0.768804, 0, 0.927589, 0, 2.24363, 0, -1.9088, 0, 0.373603, -20.2034, 2.14214, -1.34213)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Structures/FishingRodStand"]
+transform = Transform3D(1, 0, 1.63913e-07, 0, 1, 0, 0, 0, 1, 0, -0.0754259, 0)
+shape = SubResource("BoxShape3D_46wlp")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Structures/FishingRodStand"]
+mesh = SubResource("BoxMesh_bwsya")
+
 [node name="Players" type="Node3D" parent="."]
 
 [node name="Objects" type="Node3D" parent="."]
@@ -235,18 +257,10 @@ spawn_limit = 10
 [node name="FishingRodPickUp" parent="Objects" instance=ExtResource("7_oj50y")]
 transform = Transform3D(-1.10915e-09, -0.999679, 0.0253743, -4.36974e-08, 0.0253743, 0.999679, -1, -2.45038e-15, -4.37114e-08, -3.66227, 0.984697, -6.64091)
 durability = 25
-
-[node name="FishingRodStand" type="StaticBody3D" parent="Objects"]
-transform = Transform3D(0.768804, 0, 0.927589, 0, 2.24363, 0, -1.9088, 0, 0.373603, -20.2034, 2.14214, -1.34213)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Objects/FishingRodStand"]
-transform = Transform3D(1, 0, 1.63913e-07, 0, 1, 0, 0, 0, 1, 0, -0.0754259, 0)
-shape = SubResource("BoxShape3D_46wlp")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Objects/FishingRodStand"]
-mesh = SubResource("BoxMesh_bwsya")
+id = 1
 
 [node name="BeerBottlePickUp" parent="Objects" instance=ExtResource("8_nffy3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.32827, 1.13886, -7.12792)
+id = 2
 
 [connection signal="body_entered" from="Teleporter" to="Teleporter" method="_on_body_entered"]

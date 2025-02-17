@@ -4,6 +4,9 @@ const menu = preload("res://Scenes/main_menu.tscn")
 const player = preload("res://Scenes/player.tscn")
 const world = preload("res://Scenes/world.tscn")
 
+const fishingRodPickup = "res://Scenes/fishing_rod_Pickup.tscn"
+const beerBottlePickup = "res://Scenes/beer_bottle_pick_up.tscn"
+
 var playerHolder
 var objectsHolder
 
@@ -12,9 +15,12 @@ var mainMenu_scene
 var world_scene
 
 var localPlayerId
+var localPlayer
 
 var ip
 var port
+
+var nextObjectId = 1
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -36,6 +42,10 @@ func createWorld():
 		Global.add_child(instance)
 		Global.playerHolder = Global.world_scene.get_node("Players")
 		Global.objectsHolder = Global.world_scene.get_node("Objects")
+		
+func objectSynch():
+	for n in Global.objectsHolder.get_children():
+		n.queue_free()
 
 func addPlayer(peer_id):
 	var p = player.instantiate()
@@ -43,11 +53,37 @@ func addPlayer(peer_id):
 	createWorld()
 	Global.playerHolder.add_child(p)
 	p.get_child(2).set_multiplayer_authority(peer_id)
+	getLocalPlayer()
+	if peer_id != 1:
+		for n in Global.objectsHolder.get_children():
+			var it = n as Item
+			var path
+			match it.type:
+				1:
+					path = fishingRodPickup
+				2:
+					path = beerBottlePickup
+			Global.createObject.rpc_id(peer_id,path,n.global_transform,false)
 	
 func removePlayer(peer_id):
 	var p = Global.playerHolder.get_node_or_null(str(peer_id))
 	if p:
 		p.queue_free()
+
+func getLocalPlayer():
+	if localPlayer: return
+	for n in Global.playerHolder.get_children():
+		if n.name == str(multiplayer.get_unique_id()):
+			Global.localPlayer = n
+
+func getNewObjectId():
+	nextObjectId += 1
+	return nextObjectId - 1
+
+func getVarsFromId(_id):
+	for p in Global.playerHolder.get_children():
+		if p.activeItem and p.activeItem.id == _id:
+			return p.activeItem.getVars()
 
 func UpnpSetup():
 	var upnp = UPNP.new()
@@ -60,6 +96,12 @@ func UpnpSetup():
 	assert(map == UPNP.UPNP_RESULT_SUCCESS, "UPNP Port Mapping Failed! Error %s" % map)
 	print("Success! Join address %s" % upnp.query_external_address())
 	
+func getItemFromId(_id):
+	for n in Global.objectsHolder.get_children():
+		var item = n as Item
+		if item and item.id == _id:
+			return item
+	
 func _unhandled_input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed("quit"):
 		get_tree().quit()
@@ -70,10 +112,17 @@ func removeObject(node_path):
 	object.queue_free()
 	
 @rpc("any_peer", "reliable", "call_local")
-func createObject(load_path,hand,drop):
-	var spawnItem = load(load_path).instantiate() as Node3D
+func createObject(load_path,hand,drop,_itemId):
+	var spawnItem = load(load_path).instantiate() as Item
 	Global.objectsHolder.add_child(spawnItem)
 	spawnItem.position = hand.origin
 	spawnItem.rotation = Vector3(hand.basis.get_euler().x,hand.basis.get_euler().y+90,hand.basis.get_euler().z)
 	if drop:
 		spawnItem.apply_impulse(spawnItem.basis.x,-spawnItem.basis.x * 500)
+	
+	print(spawnItem.id)
+	
+	if _itemId != 0:
+		spawnItem.itemSetup(getVarsFromId(_itemId))
+	else:
+		spawnItem.itemSetup("default")

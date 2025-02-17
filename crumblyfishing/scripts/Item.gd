@@ -3,6 +3,7 @@ class_name Item
 
 @export var item_name : String
 @export var cost : float
+@export var type = 0
 @export var id = 0
 
 
@@ -13,6 +14,12 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	pass
-
-func use():
+	
+func itemSetup(_vars):
+	pass
+func getVars():
+	pass
+func use(_useTimer):
+	pass
+func stopUse():
 	pass

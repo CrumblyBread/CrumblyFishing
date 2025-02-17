@@ -16,6 +16,9 @@ properties/1/replication_mode = 1
 properties/2/path = NodePath(".:visible")
 properties/2/spawn = true
 properties/2/replication_mode = 1
+properties/3/path = NodePath(".:id")
+properties/3/spawn = true
+properties/3/replication_mode = 1
 
 [node name="FishingRodPickUp" type="RigidBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00238228, 4.76837e-07, -0.0103168)
