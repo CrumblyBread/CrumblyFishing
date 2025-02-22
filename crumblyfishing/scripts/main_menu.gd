@@ -132,6 +132,7 @@ func joined_server():
 	Global.objectSynch()
 	
 	await get_tree().create_timer(.2).timeout
+	Global.getLocalPlayer()
 	Global.playerHolder.get_node(str(multiplayer.get_unique_id())).setPlayerName(username)
 	Global.playerHolder.get_node(str(multiplayer.get_unique_id())).setPlayerOutfit(outfit)
 

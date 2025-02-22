@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://bdaqbnaj5huih"]
+[gd_scene load_steps=34 format=3 uid="uid://bdaqbnaj5huih"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_iqss1"]
 [ext_resource type="Texture2D" uid="uid://dmug7ld236iu0" path="res://Textures/Player/Tracksuit.png" id="2_0ecj4"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://cuiw7juqutftn" path="res://Textures/Player/LumberJackOutFit.png" id="4_f3k6p"]
 [ext_resource type="Script" path="res://scripts/input_synchronizer.gd" id="5_tg2nt"]
 [ext_resource type="Script" path="res://scripts/Items/fishing_rod.gd" id="7_twamc"]
+[ext_resource type="ArrayMesh" uid="uid://ba2d6rikuflor" path="res://Meshes/FishingRodCrank.res" id="8_b5hbi"]
 [ext_resource type="Script" path="res://scripts/Items/beer_bottle.gd" id="8_fp3pb"]
 [ext_resource type="ArrayMesh" uid="uid://e23i5h1h56ji" path="res://Meshes/BeerBottleMesh.res" id="8_xot23"]
 [ext_resource type="ArrayMesh" uid="uid://bstq5nv7c3m5j" path="res://Meshes/BeerMesh.res" id="9_bsfwf"]
@@ -41,7 +42,8 @@ material = SubResource("StandardMaterial3D_pcroh")
 
 [sub_resource type="Animation" id="Animation_qichi"]
 resource_name = "Cast"
-length = 2.25
+length = 6.0
+loop_mode = 1
 step = 0.25
 tracks/0/type = "bezier"
 tracks/0/imported = false
@@ -52,7 +54,7 @@ tracks/0/loop_wrap = true
 tracks/0/keys = {
 "handle_modes": PackedInt32Array(0, 0, 0),
 "points": PackedFloat32Array(-0.866074, -0.25, 0, 0.25, 0, 0.520398, -0.25, 0, 0.25, 0, -0.866074, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 2, 2.25)
+"times": PackedFloat32Array(0, 3, 6)
 }
 tracks/1/type = "bezier"
 tracks/1/imported = false
@@ -63,7 +65,7 @@ tracks/1/loop_wrap = true
 tracks/1/keys = {
 "handle_modes": PackedInt32Array(0, 0, 0),
 "points": PackedFloat32Array(-0.0740746, -0.25, 0, 0.25, 0, -0.452569, -0.25, 0, 0.25, 0, -0.0740746, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 2, 2.25)
+"times": PackedFloat32Array(0, 3, 6)
 }
 tracks/2/type = "bezier"
 tracks/2/imported = false
@@ -74,7 +76,7 @@ tracks/2/loop_wrap = true
 tracks/2/keys = {
 "handle_modes": PackedInt32Array(0, 0, 0),
 "points": PackedFloat32Array(0.0564728, -0.25, 0, 0.25, 0, -0.429543, -0.25, 0, 0.25, 0, 0.0564728, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 2, 2.25)
+"times": PackedFloat32Array(0, 3, 6)
 }
 tracks/3/type = "bezier"
 tracks/3/imported = false
@@ -85,7 +87,7 @@ tracks/3/loop_wrap = true
 tracks/3/keys = {
 "handle_modes": PackedInt32Array(0, 0, 0),
 "points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 2, 2.25)
+"times": PackedFloat32Array(0, 3, 6)
 }
 tracks/4/type = "bezier"
 tracks/4/imported = false
@@ -96,7 +98,7 @@ tracks/4/loop_wrap = true
 tracks/4/keys = {
 "handle_modes": PackedInt32Array(0, 0, 0),
 "points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 2, 2.25)
+"times": PackedFloat32Array(0, 3, 6)
 }
 tracks/5/type = "bezier"
 tracks/5/imported = false
@@ -107,7 +109,132 @@ tracks/5/loop_wrap = true
 tracks/5/keys = {
 "handle_modes": PackedInt32Array(0, 0, 0),
 "points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 2, 2.25)
+"times": PackedFloat32Array(0, 3, 6)
+}
+
+[sub_resource type="Animation" id="Animation_7dan3"]
+resource_name = "Cast_flick"
+length = 0.25
+step = 0.25
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FishingRod:rotation:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0.520398, -0.25, 0, 0.25, 0, -0.866074, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.25)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("FishingRod:rotation:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(-0.452569, -0.25, 0, 0.25, 0, -0.0740746, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.25)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("FishingRod:rotation:z")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(-0.429543, -0.25, 0, 0.25, 0, 0.0564728, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.25)
+}
+
+[sub_resource type="Animation" id="Animation_tb6v2"]
+resource_name = "Drink"
+length = 6.0
+step = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0.162962, -0.356562, -0.459265), Vector3(0.162962, 0.0537778, -0.50793)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0.824511, 0, 0), Vector3(2.13143, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_tk7fb"]
+resource_name = "Drink_winddown"
+length = 0.5
+step = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.477414, -0.294176, -0.349952)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_1iay1"]
+resource_name = "Drink_windup"
+length = 0.5
+step = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0.477414, -0.294176, -0.349952), Vector3(0.162962, -0.356562, -0.459265)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0.824511, 0, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_qfl3q"]
@@ -264,6 +391,10 @@ tracks/7/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_4q8b5"]
 _data = {
 "Cast": SubResource("Animation_qichi"),
+"Cast_flick": SubResource("Animation_7dan3"),
+"Drink": SubResource("Animation_tb6v2"),
+"Drink_winddown": SubResource("Animation_tk7fb"),
+"Drink_windup": SubResource("Animation_1iay1"),
 "Idle": SubResource("Animation_qfl3q"),
 "Move": SubResource("Animation_7mnln"),
 "RESET": SubResource("Animation_vxnbo")
@@ -314,6 +445,9 @@ properties/3/replication_mode = 2
 properties/4/path = NodePath("Camera3D/Hand/BeerBottle:visible")
 properties/4/spawn = true
 properties/4/replication_mode = 1
+properties/5/path = NodePath("Camera3D/Hand/AnimationPlayer:current_animation")
+properties/5/spawn = true
+properties/5/replication_mode = 2
 
 [node name="Player" type="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -328,7 +462,6 @@ transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 0, 0.10602, 0)
 
 [node name="TracksuitBody" type="MeshInstance3D" parent="Graphics/BodyHolder"]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, -0.471804, 0)
-visible = false
 mesh = SubResource("CapsuleMesh_is08f")
 skeleton = NodePath("../../..")
 
@@ -374,6 +507,10 @@ visible = false
 mesh = ExtResource("4_efbha")
 script = ExtResource("7_twamc")
 durability = 49
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Camera3D/Hand/FishingRod"]
+transform = Transform3D(1, 1.86265e-09, 0, 0, 1, 0, 0, 0, 1, -0.0802142, 0.489255, 0.192605)
+mesh = ExtResource("8_b5hbi")
 
 [node name="BeerBottle" type="Node3D" parent="Camera3D/Hand"]
 transform = Transform3D(5, 0, 0, 0, -2.18557e-07, 5, 0, -5, -2.18557e-07, -0.155053, -0.0166222, 0.00356129)

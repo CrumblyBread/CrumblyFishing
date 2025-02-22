@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://bhn265s4oo2kv"]
+[gd_scene load_steps=6 format=3 uid="uid://bhn265s4oo2kv"]
 
 [ext_resource type="ArrayMesh" uid="uid://b3otautsskftv" path="res://Meshes/FishingRodMesh.res" id="2_c5vcr"]
+[ext_resource type="ArrayMesh" uid="uid://ba2d6rikuflor" path="res://Meshes/FishingRodCrank.res" id="3_5omce"]
 [ext_resource type="Script" path="res://scripts/Items/fishing_rod.gd" id="3_8unct"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_n5sch"]
@@ -36,6 +37,10 @@ shape = SubResource("BoxShape3D_n5sch")
 transform = Transform3D(-0.3, -4.65658e-10, 2.71582e-08, 2.71582e-08, 2.80146e-08, 0.3, -4.6566e-10, 0.3, -2.80146e-08, -0.002, 0.025607, -0.690525)
 mesh = ExtResource("2_c5vcr")
 skeleton = NodePath("../..")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="FishingRod"]
+transform = Transform3D(0.999998, 0.00162552, -8.49002e-05, -0.0016257, 0.999996, -0.00211683, 8.14484e-05, 0.00211696, 0.999997, -0.068833, 0.483125, 0.184087)
+mesh = ExtResource("3_5omce")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_yldn4")

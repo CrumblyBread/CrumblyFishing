@@ -54,7 +54,7 @@ func addPlayer(peer_id):
 	Global.playerHolder.add_child(p)
 	p.get_child(2).set_multiplayer_authority(peer_id)
 	getLocalPlayer()
-	if peer_id != 1:
+	if peer_id != 1 and multiplayer.is_server():
 		for n in Global.objectsHolder.get_children():
 			var it = n as Item
 			var path
@@ -63,7 +63,7 @@ func addPlayer(peer_id):
 					path = fishingRodPickup
 				2:
 					path = beerBottlePickup
-			Global.createObject.rpc_id(peer_id,path,n.global_transform,false)
+			Global.createItem.rpc_id(peer_id,path,n.global_transform,false,it.id,it.getVars())
 	
 func removePlayer(peer_id):
 	var p = Global.playerHolder.get_node_or_null(str(peer_id))
@@ -84,6 +84,9 @@ func getVarsFromId(_id):
 	for p in Global.playerHolder.get_children():
 		if p.activeItem and p.activeItem.id == _id:
 			return p.activeItem.getVars()
+	for item in Global.objectsHolder.get_children():
+		if item and item is Item and item.id == _id:
+			return item.getVars()
 
 func UpnpSetup():
 	var upnp = UPNP.new()
@@ -95,12 +98,7 @@ func UpnpSetup():
 	var map = upnp.add_port_mapping(Global.port)
 	assert(map == UPNP.UPNP_RESULT_SUCCESS, "UPNP Port Mapping Failed! Error %s" % map)
 	print("Success! Join address %s" % upnp.query_external_address())
-	
-func getItemFromId(_id):
-	for n in Global.objectsHolder.get_children():
-		var item = n as Item
-		if item and item.id == _id:
-			return item
+
 	
 func _unhandled_input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed("quit"):
@@ -112,17 +110,28 @@ func removeObject(node_path):
 	object.queue_free()
 	
 @rpc("any_peer", "reliable", "call_local")
-func createObject(load_path,hand,drop,_itemId):
+func createObject(load_path,hand,drop):
 	var spawnItem = load(load_path).instantiate() as Item
 	Global.objectsHolder.add_child(spawnItem)
 	spawnItem.position = hand.origin
 	spawnItem.rotation = Vector3(hand.basis.get_euler().x,hand.basis.get_euler().y+90,hand.basis.get_euler().z)
 	if drop:
 		spawnItem.apply_impulse(spawnItem.basis.x,-spawnItem.basis.x * 500)
-	
-	print(spawnItem.id)
+
+@rpc("any_peer", "reliable", "call_local")
+func createItem(load_path,hand,drop,_itemId,vars):
+	var spawnItem = load(load_path).instantiate() as Item
+	Global.objectsHolder.add_child(spawnItem)
+	spawnItem.position = hand.origin
+	spawnItem.rotation = Vector3(hand.basis.get_euler().x,hand.basis.get_euler().y+90,hand.basis.get_euler().z)
+	if drop:
+		spawnItem.apply_impulse(spawnItem.basis.x,-spawnItem.basis.x * 500)
+		
+	var spawnVars = getVarsFromId(_itemId)
+	if not spawnVars:
+		spawnVars = vars
 	
 	if _itemId != 0:
-		spawnItem.itemSetup(getVarsFromId(_itemId))
+		spawnItem.itemSetup(spawnVars)
 	else:
 		spawnItem.itemSetup("default")

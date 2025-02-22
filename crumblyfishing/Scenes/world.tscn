@@ -167,7 +167,7 @@ size = Vector3(256, 1, 256)
 size = Vector3(256, 9.3418, 256)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_46wlp"]
-size = Vector3(1, 1.1477, 1)
+size = Vector3(1, 0.828611, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_bwsya"]
 
@@ -217,7 +217,7 @@ shape = SubResource("BoxShape3D_vx7uo")
 transform = Transform3D(2.05781, 0, 0, 0, 1, 0, 0, 0, 1, -5.00033, 0.301344, -6.76086)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.249159, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0896144, 0)
 shape = SubResource("BoxShape3D_46wlp")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]

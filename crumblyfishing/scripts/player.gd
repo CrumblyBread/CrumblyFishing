@@ -26,6 +26,8 @@ var outfit = 0
 var SPEED = 5.0
 const JUMP_VELOCITY = 4.5
 
+var idle = true
+
 func _enter_tree() -> void:
 	set_multiplayer_authority(str(name).to_int())
 	pass
@@ -33,10 +35,12 @@ func _enter_tree() -> void:
 func _ready() -> void:
 	if not is_multiplayer_authority(): return
 	bodyHolder.rotate(Vector3.RIGHT,-PI/8)
-	bodyHolder.position.z = -0.2
+	bodyHolder.position.z = -0.3
 	camera.current = true
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	$Label3D.hide()
+	fishingRodItem.player = self
+	beerBottleItem.player = self
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not is_multiplayer_authority(): return
@@ -73,6 +77,7 @@ func _interact():
 		fishingRodItem.show()
 		fishingRodItem.durability = 50
 		activeItem = fishingRodItem
+		activeItem.player = self
 		activeItem.itemSetup("default")
 		return 
 	if reach.get_collider().get_name() == "BeerBottleStand":
@@ -80,6 +85,7 @@ func _interact():
 		beerBottleItem.show()
 		beerBottleItem.fillLevel = 1
 		activeItem = beerBottleItem
+		activeItem.player = self
 		activeItem.itemSetup("default")
 		return 
 	
@@ -91,7 +97,6 @@ func _interact():
 			fishingRodItem.show()
 			Global.removeObject.rpc(reach.get_collider().get_path())
 			activeItem = fishingRodItem
-			print(reach.get_collider().getVars())
 			activeItem.itemSetup(reach.get_collider().getVars())
 			return 
 
@@ -101,7 +106,6 @@ func _interact():
 			Global.removeObject.rpc(reach.get_collider().get_path())
 			activeItem = beerBottleItem
 			activeItem.itemSetup(reach.get_collider().getVars())
-			print("id is ",activeItem.id)
 			return
 		
 func dropHand():
@@ -113,8 +117,7 @@ func dropHand():
 		beerBottleItem:
 			dropItem = Global.beerBottlePickup
 	
-	print(activeItem.getVars())
-	Global.createObject.rpc(dropItem,hand.global_transform,true,activeItem.id)
+	Global.createItem.rpc(dropItem,hand.global_transform,true,activeItem.id,activeItem.getVars())
 	
 	resetHand()
 	activeItem = null
@@ -152,11 +155,11 @@ func _physics_process(delta: float) -> void:
 		velocity.z = move_toward(velocity.z, 0, SPEED)
 		
 	
-
-	if input_dir != Vector2.ZERO and is_on_floor():
-		anim.play("Move")
-	else:
-		anim.play("Idle")
+	if idle:
+		if input_dir != Vector2.ZERO and is_on_floor():
+			anim.play("Move")
+		else:
+			anim.play("Idle")
 
 	move_and_slide()
 
