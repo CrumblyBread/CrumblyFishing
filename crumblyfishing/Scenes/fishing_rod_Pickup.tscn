@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://bhn265s4oo2kv"]
+[gd_scene load_steps=7 format=3 uid="uid://bhn265s4oo2kv"]
 
 [ext_resource type="ArrayMesh" uid="uid://b3otautsskftv" path="res://Meshes/FishingRodMesh.res" id="2_c5vcr"]
 [ext_resource type="ArrayMesh" uid="uid://ba2d6rikuflor" path="res://Meshes/FishingRodCrank.res" id="3_5omce"]
 [ext_resource type="Script" path="res://scripts/Items/fishing_rod.gd" id="3_8unct"]
+[ext_resource type="PackedScene" uid="uid://b3meqmfsgv826" path="res://Scenes/Bobber.tscn" id="4_i1x81"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_n5sch"]
 size = Vector3(0.10401, 9.41964, 0.120762)
@@ -44,3 +45,9 @@ mesh = ExtResource("3_5omce")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_yldn4")
+
+[node name="Bobber" parent="." instance=ExtResource("4_i1x81")]
+transform = Transform3D(0.3, 0, 0, 0, 0.0235899, -0.299071, 0, 0.299071, 0.0235899, 0.00523758, -0.0455638, 0.372661)
+
+[node name="Tip" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00150383, 0.0262158, 2.11805)

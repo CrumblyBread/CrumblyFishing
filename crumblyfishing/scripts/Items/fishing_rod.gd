@@ -3,17 +3,21 @@ extends Item
 @export var durability : int
 var player = null
 var anim = false
+@onready var tip = $Tip
+@onready var bober = $Bobber
 
 var loading
 
 func _ready() -> void: 
 	type = 1
+	bober.set_freeze_enabled(true)
 	
 func _process(_delta: float) -> void:
 	pass
 
 func use(_useTimer):	
 	if _useTimer > 0.5:
+		bober.hide()
 		Global.localPlayer.progressBar.show()
 		if not anim:
 			player.idle = false
@@ -36,12 +40,27 @@ func stopUse():
 	anim = false
 	player.idle = true
 	if loading > 16.6666:
-		#CAST
-		player.idle = false
-		player.anim.play("Cast_flick")
-		await get_tree().create_timer(0.25).timeout
-		player.idle = true
-		print("Casting with ",loading)
+		cast(loading)
+	else:
+		bober.show()
+
+func cast(force):
+	bober.show()
+	#bober.get_child(2).set_root_path(Global.world_scene.get_path())
+	self.remove_child(bober)
+	Global.add_child(bober)
+	bober.set_freeze_enabled(false)
+	bober.global_position = tip.global_position
+	bober.rotation = Vector3.ZERO
+	bober.get_child(0).scale = Vector3(1,1,1)
+	bober.apply_impulse(bober.position,-tip.basis.z * 500 * force)
+	
+	player.idle = false
+	player.anim.play("Cast_flick")
+	await get_tree().create_timer(0.25).timeout
+	player.idle = true
+	print("Casting with ",force)
+	
 	
 func itemSetup(vars):
 	if str(vars) == "default":

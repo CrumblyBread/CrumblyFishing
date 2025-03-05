@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://bdaqbnaj5huih"]
+[gd_scene load_steps=35 format=3 uid="uid://bdaqbnaj5huih"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_iqss1"]
 [ext_resource type="Texture2D" uid="uid://dmug7ld236iu0" path="res://Textures/Player/Tracksuit.png" id="2_0ecj4"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" path="res://scripts/Items/beer_bottle.gd" id="8_fp3pb"]
 [ext_resource type="ArrayMesh" uid="uid://e23i5h1h56ji" path="res://Meshes/BeerBottleMesh.res" id="8_xot23"]
 [ext_resource type="ArrayMesh" uid="uid://bstq5nv7c3m5j" path="res://Meshes/BeerMesh.res" id="9_bsfwf"]
+[ext_resource type="PackedScene" uid="uid://b3meqmfsgv826" path="res://Scenes/Bobber.tscn" id="9_i8ilj"]
 [ext_resource type="Texture2D" uid="uid://g2h6nmk582bk" path="res://Textures/CrossHair/dot_normal.png" id="11_dy6x7"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5486n"]
@@ -511,6 +512,12 @@ durability = 49
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Camera3D/Hand/FishingRod"]
 transform = Transform3D(1, 1.86265e-09, 0, 0, 1, 0, 0, 0, 1, -0.0802142, 0.489255, 0.192605)
 mesh = ExtResource("8_b5hbi")
+
+[node name="Tip" type="Node3D" parent="Camera3D/Hand/FishingRod"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 2.04891e-08, 9.35203, 2.98023e-08)
+
+[node name="Bobber" parent="Camera3D/Hand/FishingRod" instance=ExtResource("9_i8ilj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.91038e-09, 2.20092, -0.121418)
 
 [node name="BeerBottle" type="Node3D" parent="Camera3D/Hand"]
 transform = Transform3D(5, 0, 0, 0, -2.18557e-07, 5, 0, -5, -2.18557e-07, -0.155053, -0.0166222, 0.00356129)

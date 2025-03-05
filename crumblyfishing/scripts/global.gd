@@ -6,6 +6,7 @@ const world = preload("res://Scenes/world.tscn")
 
 const fishingRodPickup = "res://Scenes/fishing_rod_Pickup.tscn"
 const beerBottlePickup = "res://Scenes/beer_bottle_pick_up.tscn"
+const boberObject = "res://Scenes/Bobber.tscn"
 
 var playerHolder
 var objectsHolder
@@ -117,6 +118,8 @@ func createObject(load_path,hand,drop):
 	spawnItem.rotation = Vector3(hand.basis.get_euler().x,hand.basis.get_euler().y+90,hand.basis.get_euler().z)
 	if drop:
 		spawnItem.apply_impulse(spawnItem.basis.x,-spawnItem.basis.x * 500)
+		
+
 
 @rpc("any_peer", "reliable", "call_local")
 func createItem(load_path,hand,drop,_itemId,vars):

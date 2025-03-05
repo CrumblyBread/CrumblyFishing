@@ -65,7 +65,7 @@ func _process(_delta: float) -> void:
 	if inputSynch.use and activeItem:
 		activeItem.use(useTimer)
 	if inputSynch.interact and reach.is_colliding() and not activeItem:
-			_interact()
+			_interact() 
 	if inputSynch.drop and activeItem:
 		dropHand()
 	
